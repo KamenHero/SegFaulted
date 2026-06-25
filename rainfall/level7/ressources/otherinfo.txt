@@ -1,0 +1,74 @@
+What (%eax) means
+
+In x86 assembly, parentheses mean memory dereference.
+
+So: eax means: the value inside the register
+
+But (%eax) means: memory located at the address stored in eax
+
+Example:
+
+eax = 0x0804a008
+
+Then (%eax) means memory at address 0x0804a008
+
+
+Understanding this instruction movl $0x1,(%eax)
+Break it into parts.
+
+movl means : move 4 bytes (a long)
+
+$0x1 means : the constant value 1
+
+(%eax) means : memory at address eax
+
+So the instruction means:
+
+store value 1 into the memory pointed by eax
+
+In C language that is exactly:
+
+*eax = 1
+
+But earlier we stored the result of malloc into ptr1.
+
+So: eax = ptr1
+Therefore: *(ptr1) = 1
+
+
+
+THe first malloc of the main :
+
+malloc(8) => So the program allocates 8 bytes on the heap.
+Heap now: ptr1 → [ 8 bytes ]
+
+In 32-bit x86, the return value of a function is always stored in EAX.
+so the pointer returned by malloc will be inside: EAX
+EAX = pointer to allocated memory
+
+Then the program stores it: mov %eax,0x1c(%esp)
+Meaning: *(esp + 0x1c) = EAX
+So now: ptr1 = malloc(8)
+
+2) 
+0x0804853e <+29>: movl $0x1,(%eax) Break this down carefully.
+
+(%eax) means => memory at address stored in EAX
+
+So if: EAX = 0x804a008
+then (%eax) = memory at 0x804a008
+
+3) 
+movl $0x1,(%eax)
+
+This means:
+write the value 1 to the memory address in EAX
+So: *(EAX) = 1
+
+Since: EAX = ptr1
+this becomes: *(ptr1) = 1
+
+
+call strcpy
+
+This is dangerous because: strcpy(dst, src) does NO size checking.

