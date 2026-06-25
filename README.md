@@ -72,23 +72,10 @@ Each level folder contains:
 | `source.c` / `source.cpp` | Reconstructed source matching the original binary |
 | `walkthrough.md` | Explanation of the vulnerability and the exploit used |
 
-To compile a level locally (for study purposes):
-
-```bash
-# C
-gcc -m32 -fno-stack-protector -z execstack -o level0 source.c
-
-# C++
-g++ -m32 -fno-stack-protector -z execstack -o level0 source.cpp
-```
-
-> ⚠️ These flags intentionally disable security mitigations to reproduce the vulnerable environment used in the original project.
-
----
 
 ## 🧠 Notes
 
-- The original binaries run on a **32-bit Linux** environment — compile with `-m32` accordingly.
+- The original binaries run on a **32-bit Linux** environment.
 - Reconstructed sources aim to produce the same assembly as the original when compiled with matching flags; minor differences may exist.
 - Walkthroughs explain the **thought process** (GDB analysis, vulnerability identification, exploit crafting) rather than just the final answer.
 
@@ -103,14 +90,3 @@ g++ -m32 -fno-stack-protector -z execstack -o level0 source.cpp
 
 ---
 
-## ⚖️ Disclaimer
-
-This repository is for **educational purposes only**. The techniques demonstrated are studied in the context of the 42 School curriculum to build an understanding of low-level security. Do not apply these techniques to systems you do not own or have explicit permission to test.
-
----
-
-## 👤 Author
-
-| Login | School |
-|-------|--------|
-| your_login | 42 |
